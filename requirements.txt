@@ -1,7 +1,8 @@
 streamlit
-sentence-transformers
 scikit-learn
-imbalanced-learn
 joblib
+pandas
+numpy
+plotly
 matplotlib
-seaborn
+nltk
