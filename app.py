@@ -47,6 +47,20 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-image: url('Topography Pattern Texture.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 @st.cache_resource
 def load_models():
@@ -57,7 +71,7 @@ def load_models():
         'E/I': 'mbti_model_ie.joblib',
         'S/N': 'mbti_model_ns.joblib',
         'T/F': 'mbti_model_ft.joblib',
-        'J/P': 'mbti_model_jp.joblib'
+        'J/P': 'mbti_model_ip.joblib'
     }
 
     vectorizer_file = 'mbti_vectorizer.joblib'
@@ -204,7 +218,7 @@ def create_confidence_bars(predictions):
     return fig
 
 def main():
-    st.title("🧠 MBTI Personality Predictor")
+    st.title("🤖 MBTI Personality Predictor")
     st.markdown("Analyze text to predict Myers-Briggs personality type!")
 
     st.sidebar.header("📊 About MBTI")
@@ -227,22 +241,34 @@ def main():
     with col1:
         st.header("📝 Enter Your Text")
         sample_texts = {
-            "Select a sample...": "",
-            "Analytical Person": "I love solving complex problems...",
-            "Creative Person": "I'm always coming up with new ideas...",
-            "Social Leader": "I enjoy leading teams...",
-            "Thoughtful Introvert": "I prefer deep conversations..."
+            "Analytical Person": "I enjoy breaking down complex problems and finding logical solutions in my daily work.",
+            "Creative Person": "My mind is always buzzing with new ideas and imaginative ways to express myself.",
+            "Social Leader": "I thrive when leading groups, motivating others, and organizing team activities for success.",
+            "Thoughtful Introvert": "I prefer deep, meaningful conversations and often reflect on my thoughts and feelings alone.",
+            "Empathetic Listener": "I find fulfillment in supporting friends, listening to their concerns, and offering thoughtful advice.",
+            "Adventurous Explorer": "I love trying new experiences, traveling to unfamiliar places, and embracing spontaneous adventures.",
+            "Organized Planner": "I keep detailed schedules, set clear goals, and enjoy creating structure in my daily life.",
+            "Calm Mediator": "I help resolve conflicts by understanding different perspectives and finding peaceful solutions for everyone.",
+            "Enthusiastic Motivator": "I inspire others with my positive energy and encourage them to pursue their passions fearlessly."
         }
-        selected_sample = st.selectbox("Choose a sample text:", list(sample_texts.keys()))
-        text_input = st.text_area("Text to analyze:", value=sample_texts[selected_sample], height=200)
+        sample_options = ["Select a sample..."] + list(sample_texts.keys())
+        selected_sample = st.selectbox("Choose a sample text:", sample_options)
+
+        # Only fill the text area if a real sample is selected
+        if selected_sample == "Select a sample...":
+            text_value = ""
+        else:
+            text_value = sample_texts[selected_sample]
+
+        text_input = st.text_area("Text to analyze (Your description):", value=text_value, height=200)
         predict_button = st.button("🔮 Predict Personality", type="primary")
         if text_input:
             word_count = len(text_input.split())
             st.info(f"📊 Word count: {word_count} words")
 
     with col2:
-        st.header("🎯 Prediction Results")
         if predict_button and text_input.strip():
+            st.header("🎯 Prediction Results")
             result, error = predict_personality(text_input, models, vectorizer)
             if error:
                 st.error(f"❌ {error}")
