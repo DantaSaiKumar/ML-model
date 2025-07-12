@@ -71,7 +71,7 @@ def load_models():
         'E/I': 'mbti_model_ie.joblib',
         'S/N': 'mbti_model_ns.joblib',
         'T/F': 'mbti_model_ft.joblib',
-        'J/P': 'mbti_model_ip.joblib'
+        'J/P': 'mbti_model_jp.joblib'
     }
 
     vectorizer_file = 'mbti_vectorizer.joblib'
