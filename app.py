@@ -6,12 +6,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 import plotly.express as px
 import plotly.graph_objects as go
-
-# [CSS, MBTI DIMENSIONS, and PERSONALITY_TYPES are unchanged]
-# Apply Streamlit page config
 st.set_page_config(page_title="MBTI Predictor", layout="wide", page_icon="🧠")
-
-# Inject custom CSS for improved UI
 st.markdown("""
 <style>
     .main {
@@ -253,8 +248,6 @@ def main():
         }
         sample_options = ["Select a sample..."] + list(sample_texts.keys())
         selected_sample = st.selectbox("Choose a sample text:", sample_options)
-
-        # Only fill the text area if a real sample is selected
         if selected_sample == "Select a sample...":
             text_value = ""
         else:
